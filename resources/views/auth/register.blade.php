@@ -2,11 +2,38 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
+        <div class="m-5 flex gap-2 justify-center">
+            <div>
+                <label for="private" class="mr-2">
+                    <input type="radio" id="private" name="type" value="private" checked>
+                    Private
+                </label>
+            </div>
+            <div>
+                <label for="business">
+                    <input type="radio" id="business" name="type" value="business">
+                    Business
+                </label>
+            </div>
+        </div>
+
         <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        <div class="mt-4">
+            <x-input-label for="first_name" :value="__('First Name')" />
+            <x-text-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required autofocus autocomplete="first_name" />
+            <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
+        </div>
+        <div class="mt-4">
+            <x-input-label for="last_name" :value="__('Last Name')" />
+            <x-text-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required autofocus autocomplete="last_name" />
+            <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
+        </div>
+
+        <!-- Business name -->
+        <div id="company" class="mt-4">
+            <x-input-label for="company" :value="__('Business')" />
+            <x-text-input id="company" class="block mt-1 w-full" type="text" name="company" :value="old('company')" autofocus autocomplete="company" />
+            <x-input-error :messages="$errors->get('company')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
