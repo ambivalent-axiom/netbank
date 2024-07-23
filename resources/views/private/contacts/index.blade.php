@@ -47,7 +47,7 @@
                                 Email
                             </th>
                             <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                Actions
+                                Delete
                             </th>
                         </tr>
                         </thead>
@@ -58,13 +58,18 @@
                                     {{ $contact->first_name }}
                                 </td>
                                 <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    {{ $contact->last_name}}
+                                    {{ $contact->last_name }}
                                 </td>
                                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                     {{  $contact->email }}
                                 </td>
                                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    Delete
+                                    <form id="contact" method="POST" action="/contacts/delete">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input id="contact" name="contact" type="hidden" value="{{ $contact->id }}">
+                                        <x-secondary-button class="button" type="submit">X</x-secondary-button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

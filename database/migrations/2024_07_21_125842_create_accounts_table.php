@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('type');
-            $table->string('portfolio_id')->default(null);
+            $table->string('portfolio_id')->default(null)->nullable();
             $table->string('currency');
             $table->foreignIdFor(User::class, 'user_id')->constrained()->cascadeOnDelete();
             $table->integer('balance')->default(0);

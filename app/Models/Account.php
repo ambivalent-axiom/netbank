@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Account extends Model
 {
     use HasFactory;
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $guarded = [];
     protected $casts = [
         'id' => 'string'

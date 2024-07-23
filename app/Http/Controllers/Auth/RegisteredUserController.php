@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Account;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Ramsey\Uuid\Uuid;
 
 class RegisteredUserController extends Controller
 {
@@ -46,6 +48,18 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $account = Account::create([
+            'id' => Uuid::uuid4(),
+            'type' => $user->company ? 'business' : 'private',
+            'portfolio_id' => null,
+            'currency' => 'EUR',
+            'user_id' => $user->id,
+            'balance' => 0,
+        ]);
+
+        $user->default_account = $account->id;
+        $user->save();
 
         event(new Registered($user));
 

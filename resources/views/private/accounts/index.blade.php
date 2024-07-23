@@ -4,22 +4,8 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ Auth::user()->first_name }}{{ __(" associated accounts") }}
             </h2>
-            <!-- Check if there's a success message in the session -->
-            @if(session('message'))
-                <div class="text-sm text-yellow-600">
-                    {{ session('message') }}
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="text-sm text-red-600">
-                    {{ session('error') }}
-                </div>
-            @endif
-            @if(session('success'))
-                <div class="text-sm text-green-600">
-                    {{ session('success') }}
-                </div>
-            @endif
+            <!-- Check if there's a message in the session -->
+            <x-flashmsg></x-flashmsg>
         </div>
     </x-slot>
     <div class="py-2">
@@ -94,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-5">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-2">
                 <div class="flex justify-end m-5">
                     <h3 class="pr-3 pt-1 text-xl text-gray-800 leading-tight">
                         {{ __("Accounts shared with ") }}{{ Auth::user()->first_name }}

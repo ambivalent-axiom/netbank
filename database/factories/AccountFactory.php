@@ -3,11 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use Faker\Core\Uuid;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Account>
@@ -19,15 +17,20 @@ class AccountFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition(
+        string $type = null,
+        string $currency = null,
+        int $user_id = null,
+        int $balance = null
+    ): array
     {
         return [
-            'id' => \Ramsey\Uuid\Uuid::uuid4(),
-            'type' => 'private',
-            'portfolio_id' => 0,
-            'currency' => Arr::random(['EUR', 'USD']),
-            'user_id' => User::all()->random()->id,
-            'balance' => random_int(0, 1000),
+            'id' => Uuid::uuid4(),
+            'type' => $type ?? 'private',
+            'portfolio_id' => null,
+            'currency' => $currency ?? Arr::random(['EUR', 'USD']),
+            'user_id' => $user_id ?? User::all()->random()->id,
+            'balance' => $balance ?? random_int(0, 1000),
         ];
     }
 }
