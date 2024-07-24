@@ -4,22 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __("Contacts") }}
             </h2>
-            <!-- Check if there's a success message in the session -->
-            @if(session('message'))
-                <div class="text-sm text-yellow-600">
-                    {{ session('message') }}
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="text-sm text-red-600">
-                    {{ session('error') }}
-                </div>
-            @endif
-            @if(session('success'))
-                <div class="text-sm text-green-600">
-                    {{ session('success') }}
-                </div>
-            @endif
+            @include('private.includes.flashmsgs_header')
         </div>
     </x-slot>
     <div class="py-2">

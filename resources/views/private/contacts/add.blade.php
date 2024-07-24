@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Find Your contacts') }}
             </h2>
-            <x-flashmsg></x-flashmsg>
+            @include('private.includes.flashmsgs_header')
         </div>
     </x-slot>
     <div class="py-12">
