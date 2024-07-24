@@ -3,6 +3,7 @@ use App\Http\Controllers\Account\AccountCreateController;
 use App\Http\Controllers\Account\AccountDeleteController;
 use App\Http\Controllers\Account\AccountEditController;
 use App\Http\Controllers\Account\AccountIndexController;
+use App\Http\Controllers\Account\AccountShareController;
 use App\Http\Controllers\Dashboard\DashboardContactController;
 use App\Http\Controllers\Dashboard\DashboardIndexController;
 use App\Http\Controllers\User\ProfileController;
@@ -15,6 +16,11 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardIndexController::class, 'index'])
         ->name('dashboard');
+
+
+
+
+
     Route::get('/accounts', [AccountIndexController::class, 'index'])
         ->name('accounts');
     Route::get('/accounts/create', [AccountCreateController::class, 'create'])
@@ -24,6 +30,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('destroy');
     Route::get('/accounts/{account}/default', [AccountEditController::class, 'default'])
         ->name('default');
+
+
+
+    Route::get('/accounts/share', [AccountShareController::class, 'index'])
+        ->name('accounts.share.index');
+    Route::put('/accounts/share', [AccountShareController::class, 'store'])
+        ->name('accounts.share');
+    Route::delete('/accounts/share', [AccountShareController::class, 'destroy'])
+        ->name('accounts.share.destroy');
+
+
+
+
+
 
 
     Route::controller(DashboardContactController::class)->group(function () {

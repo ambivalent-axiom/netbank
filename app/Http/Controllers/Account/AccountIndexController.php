@@ -17,7 +17,7 @@ class AccountIndexController extends Controller
             return $account;
         });
 
-        $sharedAccounts = Auth::user()->sharedAccounts()->with('owner')->get();
+        $sharedAccounts = Auth::user()->sharedWithAccounts()->with('owner')->get();
         $sharedAccounts->transform(function ($account) {
             $account->type = ucwords($account->type);
             $account->balance = number_format($account->balance/100, 2, ',', ' ');

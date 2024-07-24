@@ -12,9 +12,14 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="flex justify-between m-5">
-                    <a href="/accounts/create">
-                        <x-primary-button>Add account</x-primary-button>
-                    </a>
+                    <div>
+                        <a href="/accounts/create">
+                            <x-primary-button>Add account</x-primary-button>
+                        </a>
+                        <a href="/accounts/share">
+                            <x-primary-button>Share account</x-primary-button>
+                        </a>
+                    </div>
                     <h3 class="pr-3 pt-1 text-xl text-gray-800 leading-tight">
                         {{ Auth::user()->first_name }}{{ __(" owned accounts") }}
                     </h3>
@@ -64,9 +69,13 @@
                                     </td>
                                     <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                         @if($account->id != Auth::user()->default_account)
-                                            <a href="/accounts/{{ $account->id }}/default" class=" hover:text-yellow-600">Default</a>
+                                            <a href="/accounts/{{ $account->id }}/default" class="hover:text-yellow-600">
+                                                Default
+                                            </a>
                                             |
-                                            <a href="/accounts/{{ $account->id }}/destroy" class=" hover:text-yellow-600">Delete</a>
+                                            <a href="/accounts/{{ $account->id }}/destroy" class="hover:text-yellow-600">
+                                                Delete
+                                            </a>
                                         @endif
                                     </td>
                                 </tr>
@@ -79,7 +88,6 @@
                     {{ $accounts->links() }}
                 </div>
             </div>
-
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-2">
                 <div class="flex justify-end m-5">
                     <h3 class="pr-3 pt-1 text-xl text-gray-800 leading-tight">

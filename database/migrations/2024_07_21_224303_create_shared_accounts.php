@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('shared_accounts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class, 'user_id')->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'shared_user_id')->cascadeOnDelete();
             $table->foreignUuid('account_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

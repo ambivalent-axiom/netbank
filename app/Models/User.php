@@ -53,12 +53,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Account::class, 'user_id');
     }
+    public function sharedAccounts(): HasMany
+    {
+        return $this->hasMany(SharedAccount::class, 'user_id');
+    }
     public function contacts(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_contacts', 'user_id', 'contact_user_id');
     }
-    public function sharedAccounts(): BelongsToMany
+    public function sharedWithAccounts(): BelongsToMany
     {
-        return $this->belongsToMany(Account::class, 'shared_accounts', 'user_id', 'account_id');
+        return $this->belongsToMany(Account::class, 'shared_accounts', 'shared_user_id', 'account_id');
     }
 }
