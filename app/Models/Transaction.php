@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TransferOut extends Model
+class Transaction extends Model
 {
     use HasFactory;
     protected $casts = [
@@ -18,8 +18,16 @@ class TransferOut extends Model
     {
         return $this->belongsTo(User::class, 'sender_id');
     }
-    public function account(): BelongsTo //sender account
+    public function receiver(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'receiver_id');
+    }
+    public function senderAccount(): BelongsTo //sender account
     {
         return $this->belongsTo(Account::class, 'sender_account_id');
+    }
+    public function receiverAccount(): BelongsTo
+    {
+        return $this->belongsTo(Account::class, 'receiver_account_id');
     }
 }

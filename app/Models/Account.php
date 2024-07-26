@@ -24,11 +24,11 @@ class Account extends Model
     }
     public function transfersOut(): HasMany
     {
-        return $this->hasMany(\App\Http\Controllers\Transfer\TransferOut::class);
+        return $this->hasMany(\App\Http\Controllers\Transaction\TransactionController::class);
     }
     public function transfersIn(): HasMany
     {
-        return $this->hasMany(\App\Http\Controllers\Transfer\TransferIn::class);
+        return $this->hasMany(\App\Http\Controllers\Transaction\TransferIn::class);
     }
     public function portfolio(): HasOne
     {

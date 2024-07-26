@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Account;
-use App\Models\TransferIn;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,23 +13,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transfers_out', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('status');
-            $table->foreignIdFor(TransferIn::class, 'transfer_in_id')->nullable();
-            $table->string('message')->nullable();
-            $table->string('type')->nullable();
-            $table->string('currency');
-            $table->string('amount');
             $table->foreignIdFor(User::class, 'sender_id')->constrained();
             $table->foreignIdFor(Account::class, 'sender_account_id')->constrained();
-            $table->string('sender_first_name');
-            $table->string('sender_last_name');
+            $table->string('sender_name');
             $table->string('sender_email');
-            $table->string('recipient_first_name');
-            $table->string('recipient_last_name');
             $table->foreignIdFor(User::class, 'recipient_id')->constrained();
             $table->foreignIdFor(Account::class, 'recipient_account_id')->constrained();
+            $table->string('recipient_name');
+            $table->string('type');
+            $table->string('status');
+            $table->string('status_description')->nullable();
+            $table->string('message')->nullable();
+            $table->string('product')->nullable();
+            $table->string('orig_currency');
+            $table->string('final_currency');
+            $table->string('exchange_rate')->nullable();
+            $table->string('sent_amount');
+            $table->string('received_amount');
             $table->timestamps();
         });
     }
@@ -40,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transfers_out');
+        Schema::dropIfExists('transactions');
     }
 };

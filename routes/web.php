@@ -6,6 +6,7 @@ use App\Http\Controllers\Account\AccountIndexController;
 use App\Http\Controllers\Account\AccountShareController;
 use App\Http\Controllers\Dashboard\DashboardContactController;
 use App\Http\Controllers\Dashboard\DashboardIndexController;
+use App\Http\Controllers\Transaction\TransactionController;
 use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,8 +57,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/crypto', function () {return view('private.crypto.index');})
         ->name('crypto');
-    Route::get('/transactions', function () {return view('private.transactions.index');})
+
+
+
+
+    Route::get('/transactions', [TransactionController::class, 'index'])
         ->name('transactions');
+    Route::get('/transactions/create', [TransactionController::class, 'create'])
+        ->name('create');
 });
 
 Route::middleware('auth')->group(function () {
