@@ -24,6 +24,9 @@ class DashboardContactController extends Controller
     public function store()
     {
         $request = request();
+        $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255', 'exists:users,email']
+        ]);
         if ($request->email == Auth::user()->email)
         {
             return redirect('/contacts/add')->with([
@@ -39,9 +42,6 @@ class DashboardContactController extends Controller
                 'error' => 'Such contact is already in Your list.'
             ]);
         }
-        $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255', 'exists:users,email']
-        ]);
         UserContact::create([
             'user_id' => Auth::user()->getAuthIdentifier(),
             'contact_user_id' => User::where('email', $request->email)->first()->id

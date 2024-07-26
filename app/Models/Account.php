@@ -18,17 +18,21 @@ class Account extends Model
     protected $casts = [
         'id' => 'string'
     ];
-    public function portfolio(): HasOne
-    {
-        return $this->hasOne(Portfolio::class, 'portfolio_id');//TODO implement portfolio class
-    }
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    public function transactions(): HasMany
+    public function transfersOut(): HasMany
     {
-        return $this->hasMany(Transaction::class);//TODO implement transaction class
+        return $this->hasMany(\App\Http\Controllers\Transfer\TransferOut::class);
+    }
+    public function transfersIn(): HasMany
+    {
+        return $this->hasMany(\App\Http\Controllers\Transfer\TransferIn::class);
+    }
+    public function portfolio(): HasOne
+    {
+        return $this->hasOne(Portfolio::class, 'portfolio_id');//TODO implement portfolio class
     }
 }
 

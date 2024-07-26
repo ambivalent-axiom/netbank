@@ -11,7 +11,7 @@
     </div>
     <div class="flex flex-col ml-3 mr-3 mb-3">
         @foreach($contacts as $contact)
-            <div class="flex flex-row bg-transparent w-full border-collapse mb-2 text-xs">
+            <div class="flex flex-row w-full bg-transparent border-collapse mb-2 text-xs">
                 <div class="rounded-l-lg bg-yellow-400 px-4 py-2 w-1/3 ">
                     {{ $contact->first_name }}
                 </div>
