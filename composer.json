@@ -9,7 +9,8 @@
         "barryvdh/laravel-debugbar": "^3.13",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
-        "ext-http": "*"
+        "ext-http": "*",
+        "ext-simplexml": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

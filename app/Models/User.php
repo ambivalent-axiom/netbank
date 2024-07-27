@@ -65,4 +65,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Account::class, 'shared_accounts', 'shared_user_id', 'account_id');
     }
+    public function receivedTransactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'recipient_id');
+    }
+    public function sentTransactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'sender_id');
+    }
 }

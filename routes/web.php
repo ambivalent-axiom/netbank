@@ -8,6 +8,9 @@ use App\Http\Controllers\Dashboard\DashboardContactController;
 use App\Http\Controllers\Dashboard\DashboardIndexController;
 use App\Http\Controllers\Transaction\TransactionController;
 use App\Http\Controllers\User\ProfileController;
+use App\Models\Currency;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -44,9 +47,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-
-
-
     Route::controller(DashboardContactController::class)->group(function () {
         Route::get('/contacts', 'index')->name('contacts.index');
         Route::get('/contacts/add', 'add')->name('contacts.add');
@@ -60,11 +60,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-
     Route::get('/transactions', [TransactionController::class, 'index'])
         ->name('transactions');
     Route::get('/transactions/create', [TransactionController::class, 'create'])
         ->name('create');
+    Route::put('/transactions/create', [TransactionController::class, 'store'])
+        ->name('store');
 });
 
 Route::middleware('auth')->group(function () {

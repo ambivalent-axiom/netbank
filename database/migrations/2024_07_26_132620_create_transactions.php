@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignIdFor(User::class, 'sender_id')->constrained();
-            $table->foreignIdFor(Account::class, 'sender_account_id')->constrained();
+            $table->uuid('related_transaction_id')->nullable();
+            $table->foreignIdFor(User::class, 'sender_id')->constrained('users');
+            $table->foreignIdFor(Account::class, 'sender_account_id')->constrained('accounts');
             $table->string('sender_name');
             $table->string('sender_email');
-            $table->foreignIdFor(User::class, 'recipient_id')->constrained();
-            $table->foreignIdFor(Account::class, 'recipient_account_id')->constrained();
+            $table->foreignIdFor(User::class, 'recipient_id')->constrained('users');
+            $table->foreignIdFor(Account::class, 'recipient_account_id')->constrained('accounts');
             $table->string('recipient_name');
             $table->string('type');
             $table->string('status');
@@ -31,7 +32,7 @@ return new class extends Migration
             $table->string('final_currency');
             $table->string('exchange_rate')->nullable();
             $table->string('sent_amount');
-            $table->string('received_amount');
+            $table->string('received_amount')->nullable();
             $table->timestamps();
         });
     }

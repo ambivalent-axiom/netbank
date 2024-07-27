@@ -30,6 +30,9 @@
                     {{ __("Transactions for: ") }}
                     {{ Auth::user()->first_name }}
                 </div>
+                <div>
+                    @include('private.transactions.includes.transaction_table')
+                </div>
             </div>
         </div>
     </div>

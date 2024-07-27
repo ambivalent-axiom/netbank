@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Transaction extends Model
 {
     use HasFactory;
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $casts = [
         'id' => 'string'
     ];
@@ -16,18 +18,18 @@ class Transaction extends Model
 
     public function user(): BelongsTo //sender
     {
-        return $this->belongsTo(User::class, 'sender_id');
+        return $this->belongsTo(User::class, 'sender_id', 'id');
     }
-    public function receiver(): BelongsTo
+    public function recipient(): BelongsTo //receiver
     {
-        return $this->belongsTo(User::class, 'receiver_id');
+        return $this->belongsTo(User::class, 'recipient_id', 'id');
     }
     public function senderAccount(): BelongsTo //sender account
     {
-        return $this->belongsTo(Account::class, 'sender_account_id');
+        return $this->belongsTo(Account::class, 'sender_account_id', 'id');
     }
-    public function receiverAccount(): BelongsTo
+    public function recipientAccount(): BelongsTo //receiver account
     {
-        return $this->belongsTo(Account::class, 'receiver_account_id');
+        return $this->belongsTo(Account::class, 'recipient_account_id', 'id');
     }
 }

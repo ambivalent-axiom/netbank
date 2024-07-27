@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const currency = selectedOption.getAttribute('data-currency');
         const balance = selectedOption.getAttribute('data-balance');
 
-        currencyField.textContent = `Currency: ${currency}`;
-        balanceField.textContent = `Balance: ${balance}`;
+        currencyField.textContent = `${currency}`;
+        balanceField.textContent = `${balance}`;
         if (currency === null || currency.trim() === '') {
             currencyField.classList.add('hidden');
         } else {
