@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -22,13 +21,13 @@ class Account extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    public function transfersOut(): HasMany
+    public function transactionsIn(): HasMany
     {
-        return $this->hasMany(\App\Http\Controllers\Transaction\TransactionController::class);
+        return $this->hasMany(Transaction::class, 'recipient_account_id');
     }
-    public function transfersIn(): HasMany
+    public function transactionsOut(): HasMany
     {
-        return $this->hasMany(\App\Http\Controllers\Transaction\TransferIn::class);
+        return $this->hasMany(Transaction::class, 'sender_account_id');
     }
     public function portfolio(): HasOne
     {

@@ -8,6 +8,8 @@ use App\Models\Account;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use JetBrains\PhpStorm\NoReturn;
 use Ramsey\Uuid\Uuid;
@@ -21,9 +23,21 @@ class TransactionController extends Controller
     {
         $sentTransactions = Auth::user()->sentTransactions()->where('type', 'outgoing')->get();
         $receivedTransactions = Auth::user()->receivedTransactions()->where('type', 'incoming')->get();
-        $transactions = $sentTransactions->merge($receivedTransactions);
+        $mergedTransactions = $sentTransactions->merge($receivedTransactions);
+        $mergedTransactionsSorted = $mergedTransactions->sortByDesc('created_at');
+
+        $currentPage = Paginator::resolveCurrentPage();
+        $perPage = 10;
+        $currentItems = $mergedTransactionsSorted->slice(($currentPage-1) * $perPage, $perPage)->values();
+        $paginator = new LengthAwarePaginator(
+            $currentItems,
+            $mergedTransactionsSorted->count(),
+            $perPage,
+            $currentPage,
+            ['path' => Paginator::resolveCurrentPath()]
+        );
         return view('private.transactions.index', [
-            'transactions' => $transactions,
+            'transactions' => $paginator,
         ]);
     }
 
@@ -54,6 +68,7 @@ class TransactionController extends Controller
             'amount' => ['required', 'numeric'],
             'from_account' => ['required', 'exists:accounts,id'],
             'receiver_account' => ['required', 'exists:accounts,id'],
+            'message' => ['string', 'max:250'],
         ]);
         $senderAccount = Account::where('id', $request->from_account)->first();
         $recipientAccount = Account::where('id', $request->receiver_account)->first();
@@ -79,7 +94,7 @@ class TransactionController extends Controller
             'type' => 'outgoing',
             'status' => 'sent',
             'status_description' => null,
-            'message' => null,
+            'message' => $request->message ?? null,
             'product' => 'local',
             'orig_currency' => $senderAccount->currency,
             'final_currency' => $recipientAccount->currency,

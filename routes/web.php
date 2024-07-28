@@ -24,6 +24,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
+    Route::get('/test', function () {
+
+        $xml = simplexml_load_string(Cache::get('exchange_rates'));
+        $currencies = collect();
+        foreach ($xml->Currencies->Currency as $currency) {
+            $currencies->add(new Currency((string) $currency->ID, (float) $currency->Rate));
+        }
+
+
+
+        var_dump($currencies->firstWhere('id', 'USD')->rate);
+            }
+    );
+
+
+
+
 
     Route::get('/accounts', [AccountIndexController::class, 'index'])
         ->name('accounts');

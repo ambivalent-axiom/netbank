@@ -46,22 +46,19 @@ use Ramsey\Uuid\Uuid;
         foreach ($xml->Currencies->Currency as $currency) {
             $currencies->add(new Currency((string) $currency->ID, (float) $currency->Rate));
         }
-        $currentUsdRate = $currencies->where(function (Currency $currency) {
-            return $currency->getId() == 'USD';
-        });
+        $usdExchangeRate = $currencies->firstWhere('id', 'USD')->rate;
         //check if currency exchange necessary
         if ($sendersAccount->currency != $recipientAccount->currency) {
-            if ($recipientAccount->currency = 'USD')
+            if ($recipientAccount->currency === 'USD')
             {
-                $exchangeRate = $currentUsdRate->getRate();
+                $exchangeRate = $usdExchangeRate;
             }
-            if ($recipientAccount->currency = 'EUR')
+            if ($recipientAccount->currency === 'EUR')
             {
-                $exchangeRate = 1/$currentUsdRate->getRate();
+                $exchangeRate = 1/$usdExchangeRate;
             }
             $amountToReceive = round($transactionOut->sent_amount*$exchangeRate);
         }
-
         //TODO do any other necessary validations
         //stage the In transaction record in database
         $transactionIn = Transaction::create([
@@ -77,27 +74,38 @@ use Ramsey\Uuid\Uuid;
             'type' => 'incoming',
             'status' => 'received',
             'status_description' => 'received with no errors',
-            'message' => null,
+            'message' => $transactionOut->message ?? null,
             'product' => 'local',
             'orig_currency' => $sendersAccount->currency,
             'final_currency' => $recipientAccount->currency,
             'exchange_rate' => $exchangeRate ?? null,
             'sent_amount' => $transactionOut->sent_amount,
-            'received_amount' => $amountToReceive ?? null,
+            'received_amount' => $amountToReceive ?? $transactionOut->sent_amount,
         ]);
 
         //set out/in transaction status as processed
         $transactionOut->related_transaction_id = $transactionIn->id;
         $transactionOut->status = 'completed';
+        $transactionOut->exchange_rate = $exchangeRate ?? null;
         $transactionOut->save();
 
         //withdraw the amount from sender
-        $sendersAccount->balance -= $transactionOut->amount;
-        $sendersAccount->save();
+        try {
+            $sendersAccount->balance -= $transactionOut->sent_amount;
+            $sendersAccount->save();
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
 
         // place funds on receivers account
-        $recipientAccount->balance += $amountToReceive ?? $transactionOut->amount;
-        $recipientAccount->save();
+        try {
+            $recipientAccount->balance += $amountToReceive ?? $transactionIn->received_amount;
+            $recipientAccount->save();
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
         //TODO job must return funds to sender and set transaction status as failed if it fails for any reason
     }
     public function failed()

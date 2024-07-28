@@ -2,22 +2,23 @@
     <form method="POST" action="">
         @csrf
         @method('PUT')
-        <div class="mb-2 flex flex-col w-full p-2 bg-yellow-200 shadow sm:rounded-lg">
+        <div class="mb-2 flex flex-col w-full p-2 bg-yellow-200 shadow sm:rounded-lg content-evenly">
             <div class="flex justify-between">
-                <div class="ml-3">
+                <div class="ml-3 mt-1">
                     <x-input-label>
                         Amount to send
                         <x-text-input
                             id="amount"
                             name="amount"
+                            :value="old('amount')"
                             required
                         >
                         </x-text-input>
                     </x-input-label>
                     <x-input-error :messages="$errors->get('amount')" class="mt-2" />
                 </div>
-                <div>
-                    <x-input-label class="ml-5 mb-10">From account
+                <div class="mt-2 ml-10 mr-2">
+                    <x-input-label>From account
                         <select
                             id="from_account"
                             name="from_account"
@@ -46,7 +47,7 @@
                     <span id="balance" class="text-3xl"></span>
                 </div>
         </div>
-        <div class="m-3 mt-5">
+        <div class="mt-5 ml-14">
             <x-input-label>Send to
                 <select id="contact" name="contact" class="py-1 rounded-lg text-gray-700 bg-white border-none focus:outline-none focus:ring-2 focus:ring-blue-100">
                     <option value="" selected>Manually defined account</option>
@@ -62,14 +63,25 @@
             </x-input-label>
             <x-input-error :messages="$errors->get('contact')" class="mt-2" />
         </div>
-        <div class="m-3 mt-5">
+        <div class="m-2 mt-8 ml-2">
             <x-input-label>Beneficiary account
                 <x-text-input
                     id="receiver_account"
                     name="receiver_account"
-                    value=""
+                    :value="old('receiver_account')"
                     class="w-96"
                     required
+                ></x-text-input>
+            </x-input-label>
+            <x-input-error :messages="$errors->get('receiver_account')" class="mt-2" />
+        </div>
+        <div class="m-2 mt-5 ml-20">
+            <x-input-label>Message
+                <x-text-input
+                    id="message"
+                    name="message"
+                    :value="old('message')"
+                    class="w-96"
                 ></x-text-input>
             </x-input-label>
             <x-input-error :messages="$errors->get('receiver_account')" class="mt-2" />
