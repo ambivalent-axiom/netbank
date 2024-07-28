@@ -7,11 +7,10 @@
             @include('private.includes.flashmsgs_header')
         </div>
     </x-slot>
-
     <div class="py-2">
-        <div class="mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="">
+        <div class="mb-2 max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mx-auto sm:px-6 lg:px-8 space-y-6">
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <div class="flex flex-wrap content-evenly m-1">
                         @foreach($accounts as $account)
                             <div class="mb-2 flex flex-col w-full p-2 bg-yellow-200 shadow sm:rounded-lg">
@@ -39,7 +38,6 @@
                                         </form>
                                     </div>
                                 </div>
-
                                 @foreach($sharedAccounts as $sharedAccount)
                                     @if($sharedAccount->account_id == $account->id)
                                         <div class="flex justify-between mb-1 w-full p-1 bg-white sm:rounded-lg">
@@ -57,11 +55,9 @@
                                                     <button class="button mr-3 hover:text-yellow-400" type="submit">Remove</button>
                                                 </form>
                                             </div>
-
                                         </div>
                                     @endif
                                 @endforeach
-
                             </div>
                         @endforeach
                     </div>

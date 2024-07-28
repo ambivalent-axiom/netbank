@@ -1,6 +1,6 @@
-<nav x-data="{ open: false }" class="bg-white border-b">
+<nav x-data="{ open: false }" class="bg-gradient-to-r from-yellow-500 border-b">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-yellow-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-10">
             <div class="flex justify-left sm:items-center">
                 <!-- Navigation Links -->

@@ -7,14 +7,14 @@
             @include('private.includes.flashmsgs_header')
         </div>
     </x-slot>
-    <div class="py-12">
-        <div class="mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="">
+    <div class="py-2">
+        <div class="mb-2 max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mx-auto sm:px-6 lg:px-8 space-y-6">
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <div class="flex flex-wrap content-evenly m-1">
                         <form method="POST" action="">
                             @csrf
-                            <div class="m-3 mt-5">
+                            <div class="m-3">
                                 <x-input-label for="email" :value="__('Email')" />
                                 <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="email" />
                                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
