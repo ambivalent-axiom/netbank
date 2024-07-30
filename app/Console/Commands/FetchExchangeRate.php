@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
-class fetchExchangeRate extends Command
+class FetchExchangeRate extends Command
 {
     /**
      * The name and signature of the console command.
@@ -29,6 +29,17 @@ class fetchExchangeRate extends Command
     public function handle()
     {
         $response = Http::get('https://www.bank.lv/vk/ecb.xml');
-        Cache::put('exchange_rates', $response->body(), 3600);
+        $xml = simplexml_load_string($response->body());
+        foreach ($xml->Currencies->Currency as $currency) {
+            Currency::updateOrCreate(
+                [
+                    'symbol' => $currency->ID,
+                    'type' => 'fiat',
+                ],
+                [
+                    'rate' => $currency->Rate
+                ]
+            );
+        }
     }
 }

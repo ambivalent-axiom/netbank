@@ -2,15 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Currency
+class Currency extends Model
 {
-    public string $id;
-    public float $rate;
-    public function __construct(string $id, float $rate)
-    {
-        $this->id = $id;
-        $this->rate = $rate;
-    }
+    use HasFactory;
+    protected $guarded = [];
 }
