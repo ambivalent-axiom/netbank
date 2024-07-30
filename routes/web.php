@@ -7,10 +7,10 @@ use App\Http\Controllers\Account\AccountShareController;
 use App\Http\Controllers\Dashboard\DashboardContactController;
 use App\Http\Controllers\Dashboard\DashboardIndexController;
 use App\Http\Controllers\Transaction\TransactionController;
+use App\Http\Middleware\AuthorisedToTransact;
 use App\Http\Controllers\User\ProfileController;
 use App\Models\Currency;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,8 +31,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         foreach ($xml->Currencies->Currency as $currency) {
             $currencies->add(new Currency((string) $currency->ID, (float) $currency->Rate));
         }
-
-
 
         var_dump($currencies->firstWhere('id', 'USD')->rate);
             }
@@ -82,7 +80,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/transactions/create', [TransactionController::class, 'create'])
         ->name('create');
     Route::put('/transactions/create', [TransactionController::class, 'store'])
-        ->name('store');
+        ->name('store')->middleware(AuthorisedToTransact::class);
+
+
+
 });
 
 Route::middleware('auth')->group(function () {

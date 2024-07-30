@@ -40,15 +40,17 @@ use Ramsey\Uuid\Uuid;
         $sender = User::find($transactionOut->sender_id);
         $recipient = User::find($transactionOut->recipient_id);
 
-        //fetch exchange rates from cache and parse
-        $xml = simplexml_load_string(Cache::get('exchange_rates'));
-        $currencies = collect();
-        foreach ($xml->Currencies->Currency as $currency) {
-            $currencies->add(new Currency((string) $currency->ID, (float) $currency->Rate));
-        }
-        $usdExchangeRate = $currencies->firstWhere('id', 'USD')->rate;
         //check if currency exchange necessary
         if ($sendersAccount->currency != $recipientAccount->currency) {
+
+            //fetch exchange rates from cache and parse
+            $xml = simplexml_load_string(Cache::get('exchange_rates'));
+            $currencies = collect();
+            foreach ($xml->Currencies->Currency as $currency) {
+                $currencies->add(new Currency((string) $currency->ID, (float) $currency->Rate));
+            }
+            $usdExchangeRate = $currencies->firstWhere('id', 'USD')->rate;
+
             if ($recipientAccount->currency === 'USD')
             {
                 $exchangeRate = $usdExchangeRate;
