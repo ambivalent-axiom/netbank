@@ -23,11 +23,11 @@ class Account extends Model
     }
     public function transactionsIn(): HasMany
     {
-        return $this->hasMany(Transaction::class, 'recipient_account_id');
+        return $this->hasMany(Transaction::class, 'recipient_account_id', 'id')->where('type', 'incoming');
     }
     public function transactionsOut(): HasMany
     {
-        return $this->hasMany(Transaction::class, 'sender_account_id');
+        return $this->hasMany(Transaction::class, 'sender_account_id', 'id')->where('type', 'outgoing');
     }
     public function portfolio(): HasOne
     {

@@ -3,6 +3,8 @@
 use App\Models\Account;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
+use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertNotEquals;
 
 test('Outgoing Transaction can be staged with currency exchange', function () {
     [$user1, $user2] = User::factory(2)->create();
@@ -17,8 +19,12 @@ test('Outgoing Transaction can be staged with currency exchange', function () {
             'type' => 'Private',
         ]);
     $senderAccount = Account::where('user_id', $user1->id)->first();
-    $senderAccount->balance += 200;
+    $senderAccount->balance += 100;
+    $receiverAccount = Account::where('user_id', $user2->id)->first();
     $senderAccount->save();
+
+    assertEquals(100, $senderAccount->balance);
+    assertEquals(0, $receiverAccount->balance);
 
     $rates = file_get_contents(__DIR__ . '/../Props/lb_bank_rates.xml');
     Cache::put('exchange_rates', $rates, 3600);
@@ -42,4 +48,15 @@ test('Outgoing Transaction can be staged with currency exchange', function () {
         'orig_currency' => 'USD',
         'message' => 'Test Transaction'
     ]);
+    $this->assertDatabaseCount('transactions', 2);
+    $this->assertDatabaseHas('transactions', [
+        'type' => 'incoming'
+    ]);
+    $this->assertDatabaseHas('transactions', [
+        'status' => 'completed'
+    ]);
+    $senderAccount = $senderAccount->fresh();
+    $receiverAccount = $receiverAccount->fresh();
+    assertEquals(0, $senderAccount->balance);
+    assertNotEquals(0, $receiverAccount->balance);
 });

@@ -21,8 +21,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $sentTransactions = Auth::user()->sentTransactions()->where('type', 'outgoing')->get();
-        $receivedTransactions = Auth::user()->receivedTransactions()->where('type', 'incoming')->get();
+        $sentTransactions = Auth::user()->sentTransactions;
+        $receivedTransactions = Auth::user()->receivedTransactions;
         $mergedTransactions = $sentTransactions->merge($receivedTransactions);
         $mergedTransactionsSorted = $mergedTransactions->sortByDesc('created_at');
 
@@ -105,37 +105,5 @@ class TransactionController extends Controller
         //place the job
         ProcessTransaction::dispatch($transaction->id);
         return redirect('/transactions')->with('success', 'Transaction sent successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(TransactionController $f)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TransactionController $f)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TransactionController $f)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TransactionController $f)
-    {
-        //
     }
 }

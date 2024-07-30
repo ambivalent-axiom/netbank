@@ -67,10 +67,10 @@ class User extends Authenticatable
     }
     public function receivedTransactions(): HasMany
     {
-        return $this->hasMany(Transaction::class, 'recipient_id');
+        return $this->hasMany(Transaction::class, 'recipient_id')->where('type', 'incoming');
     }
     public function sentTransactions(): HasMany
     {
-        return $this->hasMany(Transaction::class, 'sender_id');
+        return $this->hasMany(Transaction::class, 'sender_id')->where('type', 'outgoing');
     }
 }

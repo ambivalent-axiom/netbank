@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
-use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
 
 class AccountIndexController extends Controller

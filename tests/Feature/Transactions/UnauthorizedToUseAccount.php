@@ -2,7 +2,7 @@
 use App\Models\Account;
 use App\Models\User;
 
-test('Outgoing Transaction can be staged with the same currency', function () {
+test('User should be able to transact only with his accounts', function () {
     [$user1, $user2] = User::factory(2)->create();
     $this->actingAs($user1)
         ->post('/accounts/create', [
@@ -14,9 +14,9 @@ test('Outgoing Transaction can be staged with the same currency', function () {
             'currency' => 'USD',
             'type' => 'Private',
         ]);
-    $senderAccount = Account::where('user_id', $user2->id)->first();
-    $senderAccount->balance += 100;
-    $senderAccount->save();
+    $user2Account = Account::where('user_id', $user2->id)->first();
+    $user2Account->balance += 100;
+    $user2Account->save();
 
     $response = $this->actingAs($user1)
         ->put('/transactions/create', [

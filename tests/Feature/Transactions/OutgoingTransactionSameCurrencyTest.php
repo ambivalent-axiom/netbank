@@ -2,9 +2,6 @@
 
 use App\Models\Account;
 use App\Models\User;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
-use function PHPUnit\Framework\assertEquals;
 
 test('Outgoing Transaction can be staged with the same currency', function () {
     [$user1, $user2] = User::factory(2)->create();

@@ -30,18 +30,18 @@
             <tr id="transaction"
                 class="bg-yellow-100 hover:bg-yellow-300 rounded"
                 onclick="openTransactionModal({
-                id: '{{ $transaction->id }}',
-                type: '{{ $transaction->type }}',
-                status: '{{ $transaction->status }}',
-                created_at: '{{ $transaction->created_at }}',
-                sender_account: '{{ $transaction->sender_account_id }}',
-                orig_currency: '{{ $transaction->orig_currency }}',
-                sent_amount: '{{ number_format($transaction->sent_amount/100, 2) }}',
-                final_currency: '{{ $transaction->final_currency }}',
-                received_amount: '{{ $transaction->received_amount ? number_format($transaction->received_amount/100, 2) : null }}',
-                exchange_rate: '{{ $transaction->exchange_rate }}',
-                sender: '{{ $transaction->sender_name }}',
-                message: '{{ $transaction->message }}'
+                    id: '{{ $transaction->id }}',
+                    type: '{{ $transaction->type }}',
+                    status: '{{ $transaction->status }}',
+                    created_at: '{{ $transaction->created_at }}',
+                    sender_account: '{{ $transaction->sender_account_id }}',
+                    orig_currency: '{{ $transaction->orig_currency }}',
+                    sent_amount: '{{ number_format($transaction->sent_amount/100, 2) }}',
+                    final_currency: '{{ $transaction->final_currency }}',
+                    received_amount: '{{ $transaction->received_amount ? number_format($transaction->received_amount/100, 2) : null }}',
+                    exchange_rate: '{{ $transaction->exchange_rate }}',
+                    sender: '{{ $transaction->sender_name }}',
+                    message: '{{ $transaction->message }}'
                 })"
             >
                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">

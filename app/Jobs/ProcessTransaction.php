@@ -12,7 +12,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Ramsey\Uuid\Uuid;
 
@@ -89,6 +88,7 @@ use Ramsey\Uuid\Uuid;
         $transactionOut->related_transaction_id = $transactionIn->id;
         $transactionOut->status = 'completed';
         $transactionOut->exchange_rate = $exchangeRate ?? null;
+        $transactionOut->received_amount = $transactionIn->received_amount;
         $transactionOut->save();
 
         //withdraw the amount from sender
@@ -98,7 +98,6 @@ use Ramsey\Uuid\Uuid;
         } catch (\Exception $e) {
             throw $e;
         }
-
 
         // place funds on receivers account
         try {
@@ -114,7 +113,7 @@ use Ramsey\Uuid\Uuid;
     {
         $transactionOut = Transaction::find($this->transactionId);
         $transactionOut->status = 'failed';
-        $transactionOut->status_description = 'failed because of laggy code';
+        $transactionOut->status_description = 'transaction failed';
         $transactionOut->save();
     }
 }
