@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Models\Account;
+use App\Models\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -13,15 +14,24 @@ class AccountCreateController extends Controller
 {
     public function create()
     {
+        $currencies = Currency::where('type', 'fiat')->get();
+        $symbols = $currencies->map(function ($currency) {
+            return $currency->symbol;
+        });
         return view('private.accounts.create', [
-            'mainCurrencies' => ['USD', 'EUR'],
+            'mainCurrencies' => $symbols,
             'accountTypes' => ['private', 'business', 'shared', 'investment'],
         ]);
     }
     public function store(Request $request): RedirectResponse
     {
+        $currencies = Currency::where('type', 'fiat')->get();
+        $symbols = $currencies->map(function ($currency) {
+            return $currency->symbol;
+        });
+        $validCurrencies = $symbols->implode(',');
         $request->validate([
-            'currency' => ['required', 'string', 'in:USD,EUR'],
+            'currency' => ['required', 'string', 'in:' . $validCurrencies],
             'type' => ['required', 'string', 'in:Shared,Investment,Private,Business'],
         ]);
         $account = Account::create([

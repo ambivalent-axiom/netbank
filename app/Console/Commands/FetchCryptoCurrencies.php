@@ -14,7 +14,7 @@ class FetchCryptoCurrencies extends Command
      *
      * @var string
      */
-    protected $signature = 'app:fetch-crypto-currencies';
+    protected $signature = 'app:fetch-crypto';
 
     /**
      * The console command description.

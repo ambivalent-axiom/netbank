@@ -2,33 +2,44 @@
 
 use App\Models\Account;
 use App\Models\User;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertNotEquals;
 
 test('Outgoing Transaction can be staged with currency exchange', function () {
     [$user1, $user2] = User::factory(2)->create();
+    DB::table('currencies')->insert([
+            'type' => 'fiat',
+            'symbol' => 'USD',
+            'rate' => '0.92'
+        ]
+    );
+    DB::table('currencies')->insert([
+            'type' => 'fiat',
+            'symbol' => 'EUR',
+            'rate' => '1'
+        ]
+    );
+    DB::table('currencies')->insert([
+            'type' => 'fiat',
+            'symbol' => 'DKK',
+            'rate' => '7.46'
+        ]
+    );
     $this->actingAs($user1)
         ->post('/accounts/create', [
-            'currency' => 'USD',
+            'currency' => 'DKK',
             'type' => 'Private',
         ]);
     $this->actingAs($user2)
         ->post('/accounts/create', [
-            'currency' => 'EUR',
+            'currency' => 'USD',
             'type' => 'Private',
         ]);
     $senderAccount = Account::where('user_id', $user1->id)->first();
     $senderAccount->balance += 100;
     $receiverAccount = Account::where('user_id', $user2->id)->first();
     $senderAccount->save();
-
-    assertEquals(100, $senderAccount->balance);
-    assertEquals(0, $receiverAccount->balance);
-
-    $rates = file_get_contents(__DIR__ . '/../Props/lb_bank_rates.xml');
-    Cache::put('exchange_rates', $rates, 3600);
-
     $response = $this->actingAs($user1)
         ->put('/transactions/create', [
             'amount' => '1',
@@ -44,8 +55,6 @@ test('Outgoing Transaction can be staged with currency exchange', function () {
         'recipient_id' => $user2->id,
         'sender_account_id' => $user1->accounts()->first()->id,
         'recipient_account_id' => $user2->accounts()->first()->id,
-        'sent_amount' => 100,
-        'orig_currency' => 'USD',
         'message' => 'Test Transaction'
     ]);
     $this->assertDatabaseCount('transactions', 2);

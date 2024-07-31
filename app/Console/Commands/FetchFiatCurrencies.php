@@ -4,17 +4,16 @@ namespace App\Console\Commands;
 
 use App\Models\Currency;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
-class FetchExchangeRate extends Command
+class FetchFiatCurrencies extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:fetch-exchange-rate';
+    protected $signature = 'app:fetch-fiat';
 
     /**
      * The console command description.

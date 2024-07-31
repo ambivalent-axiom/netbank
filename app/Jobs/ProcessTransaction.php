@@ -41,24 +41,13 @@ use Ramsey\Uuid\Uuid;
 
         //check if currency exchange necessary
         if ($sendersAccount->currency != $recipientAccount->currency) {
+            $senderCurrencyRateToEur = Currency::where('symbol', $sendersAccount->currency)->first()->rate;
+            $recipientCurrencyRateToEur = Currency::where('symbol', $recipientAccount->currency)->first()->rate;
+            $amountToReceive = round(($transactionOut->sent_amount*($recipientCurrencyRateToEur/$senderCurrencyRateToEur)));
+            if($sendersAccount->currency == 'EUR' || $recipientAccount->currency == 'EUR') {
+                $amountToReceive = round(($transactionOut->sent_amount*($senderCurrencyRateToEur/$recipientCurrencyRateToEur)));
+            }
 
-            //fetch exchange rates from cache and parse
-            $xml = simplexml_load_string(Cache::get('exchange_rates'));
-            $currencies = collect();
-            foreach ($xml->Currencies->Currency as $currency) {
-                $currencies->add(new Currency((string) $currency->ID, (float) $currency->Rate));
-            }
-            $usdExchangeRate = $currencies->firstWhere('id', 'USD')->rate;
-
-            if ($recipientAccount->currency === 'USD')
-            {
-                $exchangeRate = $usdExchangeRate;
-            }
-            if ($recipientAccount->currency === 'EUR')
-            {
-                $exchangeRate = 1/$usdExchangeRate;
-            }
-            $amountToReceive = round($transactionOut->sent_amount*$exchangeRate);
         }
         //TODO do any other necessary validations
         //stage the In transaction record in database
