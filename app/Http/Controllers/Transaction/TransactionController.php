@@ -68,7 +68,7 @@ class TransactionController extends Controller
             'amount' => ['required', 'numeric'],
             'from_account' => ['required', 'exists:accounts,id'],
             'receiver_account' => ['required', 'exists:accounts,id'],
-            'message' => ['string', 'max:250'],
+            'message' => ['max:250'],
         ]);
         $senderAccount = Account::where('id', $request->from_account)->first();
         $recipientAccount = Account::where('id', $request->receiver_account)->first();

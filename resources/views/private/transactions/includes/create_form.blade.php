@@ -84,7 +84,7 @@
                     class="w-96"
                 ></x-text-input>
             </x-input-label>
-            <x-input-error :messages="$errors->get('receiver_account')" class="mt-2" />
+            <x-input-error :messages="$errors->get('message')" class="mt-2" />
         </div>
         <div class="mt-10">
             <x-primary-button class="button" type="submit">

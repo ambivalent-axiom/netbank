@@ -58,3 +58,29 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     contactSelect.dispatchEvent(new Event('change'));
 });
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('search');
+    const tableBody = document.querySelector('tbody');
+
+    searchInput.addEventListener('input', function () {
+        const searchTerm = searchInput.value.toLowerCase();
+        const rows = tableBody.querySelectorAll('tr');
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            let rowContainsSearchTerm = false;
+
+            cells.forEach(cell => {
+                if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                    rowContainsSearchTerm = true;
+                }
+            });
+
+            if (rowContainsSearchTerm) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+});

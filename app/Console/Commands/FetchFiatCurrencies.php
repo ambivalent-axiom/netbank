@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Currency;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class FetchFiatCurrencies extends Command
@@ -40,5 +41,14 @@ class FetchFiatCurrencies extends Command
                 ]
             );
         }
+        Currency::updateOrCreate(
+            [
+                'symbol' => 'EUR',
+                'type' => 'fiat',
+            ],
+            [
+                'rate' => '1'
+            ]
+        );
     }
 }

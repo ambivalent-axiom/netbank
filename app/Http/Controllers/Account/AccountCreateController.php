@@ -34,6 +34,11 @@ class AccountCreateController extends Controller
             'currency' => ['required', 'string', 'in:' . $validCurrencies],
             'type' => ['required', 'string', 'in:Shared,Investment,Private,Business'],
         ]);
+        if ($request->type == 'Investment' && $request->currency != 'USD')
+        {
+            return redirect(route('accounts'))->with('error', 'Error. Investment account can be USD account only!');
+        }
+
         $account = Account::create([
             'id' => Uuid::uuid4(),
             'type' => strtolower($request->type),

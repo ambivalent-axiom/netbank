@@ -14,6 +14,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Log;
 
 #[AllowDynamicProperties] class ProcessTransaction implements ShouldQueue
 {
@@ -38,16 +39,14 @@ use Ramsey\Uuid\Uuid;
         $recipientAccount = Account::find($transactionOut->recipient_account_id);
         $sender = User::find($transactionOut->sender_id);
         $recipient = User::find($transactionOut->recipient_id);
-
         //check if currency exchange necessary
-        if ($sendersAccount->currency != $recipientAccount->currency) {
-            $senderCurrencyRateToEur = Currency::where('symbol', $sendersAccount->currency)->first()->rate;
-            $recipientCurrencyRateToEur = Currency::where('symbol', $recipientAccount->currency)->first()->rate;
+        if ($transactionOut->orig_currency != $transactionOut->final_currency) {
+            $senderCurrencyRateToEur = Currency::where('symbol', $transactionOut->orig_currency)->first()->rate;
+            $recipientCurrencyRateToEur = Currency::where('symbol', $transactionOut->final_currency)->first()->rate;
             $amountToReceive = round(($transactionOut->sent_amount*($recipientCurrencyRateToEur/$senderCurrencyRateToEur)));
             if($sendersAccount->currency == 'EUR' || $recipientAccount->currency == 'EUR') {
                 $amountToReceive = round(($transactionOut->sent_amount*($senderCurrencyRateToEur/$recipientCurrencyRateToEur)));
             }
-
         }
         //TODO do any other necessary validations
         //stage the In transaction record in database

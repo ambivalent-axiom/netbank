@@ -24,6 +24,7 @@
             <div class="w-1/3">
                 @include('private.dashboard.includes.balance')
                 @include('private.dashboard.includes.contacts')
+                @include('private.dashboard.includes.top_crypto')
             </div>
         </div>
     </div>

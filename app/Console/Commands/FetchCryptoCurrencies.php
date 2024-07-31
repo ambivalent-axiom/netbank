@@ -32,7 +32,13 @@ class FetchCryptoCurrencies extends Command
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'X-CMC_PRO_API_KEY' => $_ENV['COINMC'],
-            ])->get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest');
+            ])->withQueryParameters(
+                [
+                    'start' => '1',
+                    'limit' => '200',
+                    'convert' => 'USD'
+                ]
+            )->get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest');
             $response = json_decode($response->body());
             $response = $response->data;
         } catch (Exception $e) {
@@ -48,10 +54,10 @@ class FetchCryptoCurrencies extends Command
                 [
                     'type' => 'crypto',
                     'symbol' => $currency->symbol,
+                    'name' => $currency->name,
                 ],
                 [
                     'rate' => $currency->quotes->{'USD'}->price ?? $currency->quote->{'USD'}->price,
-                    'name' => $currency->name,
                     'rank' => $currency->cmc_rank ?? $currency->rank,
                     'percent_changed' => $currency->quotes->{'USD'}->percent_change_24h ?? $currency->quote->{'USD'}->percent_change_24h,
                 ]

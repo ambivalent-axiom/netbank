@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->string('symbol');
+            $table->string('logo')->nullable();
             $table->float('rate');
             $table->string('name')->nullable();
-            $table->string('rank')->nullable();
+            $table->integer('rank')->nullable();
             $table->string('percent_changed')->nullable();
             $table->timestamps();
             $table->unique(['symbol', 'type']);

@@ -33,7 +33,7 @@ test('Outgoing Transaction can be staged with currency exchange', function () {
         ]);
     $this->actingAs($user2)
         ->post('/accounts/create', [
-            'currency' => 'USD',
+            'currency' => 'EUR',
             'type' => 'Private',
         ]);
     $senderAccount = Account::where('user_id', $user1->id)->first();

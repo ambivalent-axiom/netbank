@@ -7,14 +7,16 @@
             @include('private.includes.flashmsgs_header')
         </div>
     </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("Crypto for: ") }}
-                    {{ Auth::user()->first_name }}
-                </div>
+    <div class="py-2">
+        <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8">
+            {{--            central--}}
+            <div class="w-2/3 pr-3">
+                @include('private.crypto.includes.crypto_list')
+            </div>
+            {{--            side--}}
+            <div class="w-1/3">
+                @include('private.crypto.includes.search_well')
+                @include('private.crypto.includes.portfolio_well')
             </div>
         </div>
     </div>
