@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('portfolio', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+        Schema::create('portfolios', function (Blueprint $table) {
+            $table->uuid('id');
             $table->integer('user_id');
             $table->string('symbol');
             $table->string('currency_name');
             $table->float('amount');
             $table->timestamps();
-            $table->unique(['id', 'symbol', 'user_id']);
+            $table->unique(['id', 'symbol', 'currency_name', 'user_id']);
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('portfolio');
+        Schema::dropIfExists('portfolios');
     }
 };

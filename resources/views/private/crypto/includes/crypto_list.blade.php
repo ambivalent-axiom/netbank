@@ -40,8 +40,8 @@
             </thead>
             <tbody>
             @foreach($currencies as $currency)
-                <tr class="bg-yellow-100 hover:bg-yellow-300">
-                    <td class="ml-4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <tr class="bg-yellow-100 hover:bg-yellow-300 flex-shrink-0">
+                    <td class="ml-4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 flex-shrink-0">
                         <image
                             src="{{ $currency->logo }}"
                             width="38"
@@ -69,7 +69,7 @@
                         {{ $currency->updated_at }}
                     </td>
                     <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xl whitespace-nowrap p-4">
-                        <a href="/crypto/buy">🛒</a>
+                        <a href="/crypto/buy/{{ $currency->name }}">🛒</a>
                     </td>
                 </tr>
             @endforeach

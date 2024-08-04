@@ -4,6 +4,11 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Crypto') }}
             </h2>
+            @if($investmentAccount)
+                <span>{{ __('Investment account: ') }}{{ $investmentAccount->id }}</span>
+            @else
+                <span class="text-yellow-600">{{ __('No investment account found. Create one in account section.') }}</span>
+            @endif
             @include('private.includes.flashmsgs_header')
         </div>
     </x-slot>
@@ -16,7 +21,9 @@
             {{--            side--}}
             <div class="w-1/3">
                 @include('private.crypto.includes.search_well')
-                @include('private.crypto.includes.portfolio_well')
+                @if($investmentAccount)
+                    @include('private.crypto.includes.portfolio_well')
+                @endif
             </div>
         </div>
     </div>

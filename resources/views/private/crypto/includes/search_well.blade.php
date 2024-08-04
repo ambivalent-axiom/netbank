@@ -1,4 +1,4 @@
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-2">
     <div class="flex flex-col m-4">
         <form method="POST" action="">
             @csrf

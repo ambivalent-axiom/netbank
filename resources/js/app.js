@@ -84,3 +84,38 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const cryptoAmountField = document.getElementById('crypto_amount');
+    const currentPriceField = document.getElementById('current_price');
+    const usdAmountField = document.getElementById('usd_amount');
+
+    cryptoAmountField.addEventListener('change', function () {
+        const cryptoAmount = parseFloat(cryptoAmountField.value) || 0;
+        const currentPrice = parseFloat(currentPriceField.textContent) || 0;
+        const usdAmount = cryptoAmount * currentPrice;
+        usdAmountField.value = `${usdAmount.toFixed(2)}`;
+    })
+    usdAmountField.addEventListener('change', function () {
+        const usdAmount = parseFloat(usdAmountField.value) || 0;
+        const currentPrice = parseFloat(currentPriceField.textContent) || 0;
+        const cryptoAmount = usdAmount / currentPrice;
+        cryptoAmountField.value = `${cryptoAmount.toFixed(8)}`;
+    })
+    cryptoAmountField.addEventListener('input', updateUsdAmount);
+    usdAmountField.addEventListener('input', updateCryptoAmount);
+    updateUsdAmount();
+    updateCryptoAmount();
+});
+//Calculates total SUM of in investment in USD
+document.addEventListener('DOMContentLoaded', function () {
+    let totalSum = 0;
+    const elements = document.querySelectorAll('.amount_usd');
+    elements.forEach(function (element) {
+        const value = parseFloat(element.textContent.trim());
+        if (!isNaN(value)) {
+            totalSum += value;
+        }
+    });
+    document.getElementById('total_sum').textContent = totalSum.toFixed(2);
+});

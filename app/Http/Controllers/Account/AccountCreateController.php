@@ -38,6 +38,10 @@ class AccountCreateController extends Controller
         {
             return redirect(route('accounts'))->with('error', 'Error. Investment account can be USD account only!');
         }
+        if ($request->type == 'Investment' && Auth::user()->accounts()->where('type', 'investment')->count() > 0)
+        {
+            return redirect(route('accounts'))->with('error', 'Error. You are allowed to have only one Investment account!');
+        }
 
         $account = Account::create([
             'id' => Uuid::uuid4(),

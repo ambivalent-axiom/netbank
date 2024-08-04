@@ -5,12 +5,15 @@ use App\Http\Controllers\Account\AccountEditController;
 use App\Http\Controllers\Account\AccountIndexController;
 use App\Http\Controllers\Account\AccountShareController;
 use App\Http\Controllers\Crypto\CryptoController;
+use App\Http\Controllers\Crypto\CryptoPortfolioController;
 use App\Http\Controllers\Dashboard\DashboardContactController;
 use App\Http\Controllers\Dashboard\DashboardIndexController;
 use App\Http\Controllers\Transaction\TransactionController;
 use App\Http\Middleware\AuthorisedToTransact;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Middleware\HasInvestmentAccount;
+use App\Models\Portfolio;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -53,16 +56,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/contacts/delete', 'destroy')->name('contacts.destroy');
     });
 
-
     Route::controller(CryptoController::class)->group(function () {
         Route::get('/crypto', 'index')
             ->name('crypto');
         Route::post('/crypto', 'search')
             ->name('crypto.search');
-        Route::get('/crypto/buy', 'buy')
+        Route::get('/crypto/buy/{currency}', 'show')
+            ->name('crypto.buy')
+            ->middleware(HasInvestmentAccount::class);
+        Route::put('/crypto/buy/{currency}', 'buy')
             ->name('crypto.buy')
             ->middleware(HasInvestmentAccount::class);
     });
+
+
+
+    Route::controller(CryptoPortfolioController::class)->group(function () {
+        Route::get('/crypto/portfolio', 'index')
+            ->name('crypto.portfolio');
+        Route::post('/crypto/portfolio', 'show')
+            ->name('crypto.portfolio.show');
+        Route::put('/crypto/sell', 'update')
+            ->name('crypto.portfolio.update');
+    })->middleware(HasInvestmentAccount::class);
+
+
 
     Route::controller(TransactionController::class)->group(function () {
         Route::get('/transactions','index')
@@ -72,6 +90,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/transactions/create','store')
             ->name('store')
             ->middleware(AuthorisedToTransact::class);
+    });
+
+    Route::get('/test', function () {
+
+        $portfolio = Portfolio::where([
+            ['user_id', '=', Auth::user()],
+            ['symbol', '=', 'BTC']
+        ])->get();
+
+
+
+        return count($portfolio);
     });
 
 });
