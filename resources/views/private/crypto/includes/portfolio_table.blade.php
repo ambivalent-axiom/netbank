@@ -36,7 +36,7 @@
                 class="bg-yellow-100"
             >
                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    <image src="{{ $record->cryptoLogo() }}" width="40" height="40"></image>
+                    <image src="{{ $record->currencies[0]->logo }}" width="40" height="40"></image>
                 </td>
                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                     {{ $record->created_at }}

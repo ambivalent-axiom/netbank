@@ -14,4 +14,8 @@ class Currency extends Model
     {
         return $this->hasMany(Portfolio::class, 'currency_name', 'name');
     }
+    public function cryptoTransactions(): hasMany
+    {
+        return $this->hasMany(CryptoTransaction::class, 'name', 'name');
+    }
 }

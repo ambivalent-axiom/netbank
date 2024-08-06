@@ -16,6 +16,7 @@ class Portfolio extends Model
     protected $casts = [
         'id' => 'string'
     ];
+    protected $with = ['currencies', 'cryptoTransactions'];
     public function investmentAccount(): hasOne
     {
         return $this->hasOne(Account::class);
@@ -28,62 +29,42 @@ class Portfolio extends Model
     {
         return $this->hasMany(Currency::class, 'name', 'currency_name');
     }
-    public function withProfitUSD(): float
+    public function withProfitUSD($currentRate): float
     {
-        return $this->amount * $this->currentRate(); //exchange back to current USD rate
+        return $this->amount * $currentRate; //exchange back to current USD rate
     }
     public function profitUSD(): float
     {
-        return ($this->amount * $this->currentRate())-$this->investedUSD(); //exchange back to current USD rate
+        return ($this->amount * $this->currencies[0]->rate)-$this->investedUSD(); //exchange back to current USD rate
     }
     public function investedUSD(): float
     {
-        $buy = $this->cryptoTransactions()
-            ->where([
-                'symbol' => $this->symbol,
-                'name' => $this->currency_name,
-                'type' => 'buy'
-            ])
-            ->where('created_at', '>', $this->created_at->subSeconds(10))
-            ->sum('amount_USD')/100;
-        $sell = $this->cryptoTransactions()
-            ->where([
-                'symbol' => $this->symbol,
-                'name' => $this->currency_name,
-                'type' => 'sell'
-            ])
-            ->where('created_at', '>', $this->created_at->subSeconds(10))
-            ->sum('amount_USD')/100;
-        return $buy - $sell;
-    }
-    public function currentRate(): float
-    {
-        return $this->currencies()->firstWhere([
-            'symbol' => $this->symbol,
-            'name' => $this->currency_name
-        ])->rate;
+        $buy = $this->cryptoTransactions->filter(function ($transaction) {
+            return $transaction->symbol == $this->symbol &&
+                $transaction->name == $this->currency_name &&
+                $transaction->type == 'buy' &&
+                $transaction->created_at->gt($this->created_at->subSeconds(10));
+        });
+        $sell = $this->cryptoTransactions->filter(function ($transaction) {
+            return $transaction->symbol == $this->symbol &&
+                $transaction->name == $this->currency_name &&
+                $transaction->type == 'sell' &&
+                $transaction->created_at->gt($this->created_at->subSeconds(10));
+        });
+        return ($buy->sum('amount_USD') - $sell->sum('amount_USD'))/100;
     }
     public function avgRate(): float
     {
-        return $this->cryptoTransactions()
-            ->where([
-                'symbol' => $this->symbol,
-                'name' => $this->currency_name
-            ])
-            ->where('created_at', '>', $this->created_at->subSeconds(10))
-            ->avg('rate');
+        $transactionsFiltered = $this->cryptoTransactions->filter(function ($transaction) {
+            return $transaction->symbol == $this->symbol &&
+                $transaction->name == $this->currency_name &&
+                $transaction->created_at->gt($this->created_at->subSeconds(10));
+        });
+        return $transactionsFiltered->avg('rate');
     }
     public function profitPercent(): float
     {
-        $currentRate = $this->currentRate();
         $avgRate = $this->avgRate();
-        return (($currentRate - $avgRate) / $avgRate) * 100;
-    }
-    public function cryptoLogo(): ? string
-    {
-        return $this->currencies()->firstWhere([
-            'symbol' => $this->symbol,
-            'name' => $this->currency_name
-        ])->logo;
+        return (($this->currencies[0]->rate - $avgRate) / $avgRate) * 100;
     }
 }
