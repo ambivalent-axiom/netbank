@@ -28,7 +28,7 @@
                 <div class="flex justify-between rounded-r-lg bg-yellow-200 px-3 py-2 w-full">
                     {{ $record->amount }}
                     <span class="amount_usd">
-                        {{ number_format($record->profitUSD(), 2, '.', '')}}
+                        {{ number_format($record->withProfitUSD(), 2, '.', '')}}
                     </span>
                     <span
                         @if(($profit = $record->profitPercent()) >= 0)

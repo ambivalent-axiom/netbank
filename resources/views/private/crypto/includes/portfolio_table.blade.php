@@ -56,19 +56,25 @@
                     {{ number_format(($invested = $record->investedUSD()), 2)}}
                 </td>
                 <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                    @php
+                        $profitUSD = $record->profitUSD()
+                    @endphp
                     <span
-                        @if(($profit = ($record->profitUSD() - $invested)) >= 0)
-                            class="text-green-600"
-                        @elseif($profit < 0)
+                        @if(number_format($profitUSD, 2) < 0)
                             class="text-red-600"
+                        @else
+                            class="text-green-600"
                         @endif
                     >
-                        {{ number_format($profit, 2) }}
+                        {{ number_format($profitUSD, 2) }}
                     </span>
                 </td>
                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                    @php
+                        $profitPercent = $record->profitPercent()
+                    @endphp
                     <span
-                        @if(($profitPercent = $record->profitPercent()) >= 0)
+                        @if($profitPercent >= 0)
                             class="text-green-600"
                         @elseif($profitPercent < 0)
                             class="text-red-600"
@@ -78,7 +84,7 @@
                     </span>
                 </td>
                 <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    <form method="POST" action="">
+                    <form method="POST" action="/crypto/sell">
                         @csrf
                         <x-text-input
                             id="symbol"

@@ -18,29 +18,43 @@ class Portfolio extends Model
     ];
     public function investmentAccount(): hasOne
     {
-        return $this->hasOne(Account::class, 'id', 'id');
+        return $this->hasOne(Account::class);
     }
     public function cryptoTransactions(): HasMany
     {
-        return $this->hasMany(CryptoTransaction::class, 'portfolio', 'id');
+        return $this->hasMany(CryptoTransaction::class, 'portfolio', 'portfolio_id');
     }
     public function currencies(): HasMany
     {
         return $this->hasMany(Currency::class, 'name', 'currency_name');
     }
+    public function withProfitUSD(): float
+    {
+        return $this->amount * $this->currentRate(); //exchange back to current USD rate
+    }
     public function profitUSD(): float
     {
-        return $this->amount *= $this->currentRate();
+        return ($this->amount * $this->currentRate())-$this->investedUSD(); //exchange back to current USD rate
     }
     public function investedUSD(): float
     {
-        return $this->cryptoTransactions()
+        $buy = $this->cryptoTransactions()
             ->where([
                 'symbol' => $this->symbol,
-                'name' => $this->currency_name
+                'name' => $this->currency_name,
+                'type' => 'buy'
             ])
             ->where('created_at', '>', $this->created_at->subSeconds(10))
             ->sum('amount_USD')/100;
+        $sell = $this->cryptoTransactions()
+            ->where([
+                'symbol' => $this->symbol,
+                'name' => $this->currency_name,
+                'type' => 'sell'
+            ])
+            ->where('created_at', '>', $this->created_at->subSeconds(10))
+            ->sum('amount_USD')/100;
+        return $buy - $sell;
     }
     public function currentRate(): float
     {
@@ -65,7 +79,7 @@ class Portfolio extends Model
         $avgRate = $this->avgRate();
         return (($currentRate - $avgRate) / $avgRate) * 100;
     }
-    public function cryptoLogo(): string
+    public function cryptoLogo(): ? string
     {
         return $this->currencies()->firstWhere([
             'symbol' => $this->symbol,

@@ -31,7 +31,7 @@ class Account extends Model
     }
     public function portfolio(): HasOne
     {
-        return $this->hasOne(Portfolio::class, 'portfolio_id');//TODO implement portfolio class
+        return $this->hasOne(Portfolio::class, 'portfolio_id', 'portfolio_id');
     }
 }
 

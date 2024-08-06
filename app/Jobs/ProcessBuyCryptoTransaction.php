@@ -35,7 +35,7 @@ class ProcessBuyCryptoTransaction implements ShouldQueue
         $cryptoTransaction = CryptoTransaction::where('id', $this->cryptoTransactionId)
             ->first();
         $portfolio = Portfolio::where([
-            ['id', '=', $cryptoTransaction->portfolio],
+            ['portfolio_id', '=', $cryptoTransaction->portfolio],
             ['symbol', '=', $cryptoTransaction->symbol],
             ['currency_name', '=', $cryptoTransaction->name],
         ])->get();
@@ -74,7 +74,7 @@ class ProcessBuyCryptoTransaction implements ShouldQueue
                 'currency_name' => $cryptoTransaction->name,
             ],
             [
-                'id' => $cryptoTransaction->portfolio,
+                'portfolio_id' => $cryptoTransaction->portfolio,
                 'amount' => $amount,
             ]
         );

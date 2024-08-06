@@ -1,6 +1,6 @@
 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
     <div class="flex flex-wrap content-evenly m-4">
-        <form method="POST" action="" class="w-full">
+        <form method="POST" action="/crypto/sell" class="w-full">
             @csrf
             @method('PUT')
             <div class="mb-2 flex flex-col w-full p-2 bg-yellow-200 shadow sm:rounded-lg content-evenly flex-shrink-0">

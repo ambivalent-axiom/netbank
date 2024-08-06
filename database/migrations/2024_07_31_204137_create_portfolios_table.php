@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('portfolios', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->id();
+            $table->uuid('portfolio_id');
             $table->integer('user_id');
             $table->string('symbol');
             $table->string('currency_name');
             $table->float('amount');
             $table->timestamps();
-            $table->unique(['id', 'symbol', 'currency_name', 'user_id']);
+            $table->unique(['symbol', 'currency_name', 'user_id']);
         });
     }
 

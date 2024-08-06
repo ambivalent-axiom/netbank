@@ -15,13 +15,16 @@ use App\Http\Middleware\HasInvestmentAccount;
 use App\Models\Portfolio;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use jcobhams\NewsApi\NewsApi;
 
 Route::get('/', function () {
-    return view('public.index');
+    return view('auth.login');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
+    Route::get('/', [DashboardIndexController::class, 'index'])
+        ->name('dashboard');
 
     Route::get('/accounts', [AccountIndexController::class, 'index'])
         ->name('accounts');
@@ -74,7 +77,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::controller(CryptoPortfolioController::class)->group(function () {
         Route::get('/crypto/portfolio', 'index')
             ->name('crypto.portfolio');
-        Route::post('/crypto/portfolio', 'show')
+        Route::post('/crypto/sell', 'show')
             ->name('crypto.portfolio.show');
         Route::put('/crypto/sell', 'update')
             ->name('crypto.portfolio.update');
@@ -94,14 +97,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/test', function () {
 
-        $portfolio = Portfolio::where([
-            ['user_id', '=', Auth::user()],
-            ['symbol', '=', 'BTC']
-        ])->get();
+        $newsapi = new NewsApi($_ENV['NEWSAPI']);
+        $top_headlines = $newsapi
+            ->getTopHeadlines(
+                'crypto',
+                null,
+                'us',
+                "business",
+                20,
+                2);
 
-
-
-        return count($portfolio);
+        return $top_headlines;
     });
 
 });

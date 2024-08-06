@@ -34,24 +34,49 @@ class ProcessSellCryptoTransaction implements ShouldQueue
         $cryptoTransaction = CryptoTransaction::where('id', $this->cryptoTransactionId)
             ->first();
         $portfolio = Portfolio::where([
-            ['id', '=', $cryptoTransaction->portfolio],
+            ['portfolio_id', '=', $cryptoTransaction->portfolio],
             ['symbol', '=', $cryptoTransaction->symbol],
             ['currency_name', '=', $cryptoTransaction->name],
-        ])->first();
+        ])->get();
+
         $investmentAccount = Account::where('portfolio_id', $cryptoTransaction->portfolio)->first();
 
-        try {
-            $portfolio->amount -= $cryptoTransaction->amount_crypto;
-            $portfolio->save();
-        } catch (Exception) {
-            throw new Exception("Portfolio update error");
+        if ( count($portfolio) === 0 )
+        {
+            throw new Exception("No Portfolio record for this currency " . $cryptoTransaction->symbol);
         }
+        if ( count($portfolio) === 1 )
+        {
+            $amount = $portfolio->first()->amount - $cryptoTransaction->amount_crypto;
+        }
+        if ( count($portfolio) > 1 )
+        {
+            throw new Exception("Portfolio records more then one per currency");
+        }
+
 
         try {
             $investmentAccount->balance += $cryptoTransaction->amount_USD;
             $investmentAccount->save();
         } catch (Exception) {
             throw new Exception('Failed to deposit on Investment account.');
+        }
+
+        if ($amount > 0) {
+            Portfolio::updateOrCreate(
+                [
+                    'user_id' => $cryptoTransaction->user_id,
+                    'symbol' => $cryptoTransaction->symbol,
+                    'currency_name' => $cryptoTransaction->name,
+                ],
+                [
+                    'portfolio_id' => $cryptoTransaction->portfolio,
+                    'amount' => $amount,
+                ]
+            );
+        }
+        if($amount <= 0) {
+            Portfolio::destroy($portfolio->first()->id);
         }
 
         $cryptoTransaction->status = 'completed';

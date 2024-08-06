@@ -12,6 +12,6 @@ class CryptoTransaction extends Model
     protected $guarded = [];
     public function portfolio(): BelongsTo
     {
-        return $this->belongsTo(Portfolio::class, 'id', 'portfolio');
+        return $this->belongsTo(Portfolio::class, 'portfolio_id', 'portfolio');
     }
 }

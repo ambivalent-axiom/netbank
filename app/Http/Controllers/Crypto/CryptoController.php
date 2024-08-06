@@ -16,10 +16,10 @@ class CryptoController extends Controller
     {
         $currencies = Currency::where('type', 'crypto')
             ->orderBy('rank', 'asc')
-            ->simplePaginate(100);
+            ->simplePaginate(20);
         $investmentAccount = Auth::user()->accounts()->where('type', 'investment')->first();
         if ($investmentAccount) {
-            $portfolio = Portfolio::where('id', $investmentAccount->portfolio_id)->get();
+            $portfolio = Portfolio::where('portfolio_id', $investmentAccount->portfolio_id)->get();
         }
         return view('private.crypto.index', [
             'currencies' => $currencies,
@@ -31,7 +31,7 @@ class CryptoController extends Controller
     {
         $investmentAccount = Auth::user()->accounts()->where('type', 'investment')->first();
         if ($investmentAccount) {
-            $portfolio = Portfolio::where('id', $investmentAccount->portfolio_id)->get();
+            $portfolio = Portfolio::where('portfolio_id', $investmentAccount->portfolio_id)->get();
         }
         $currencies = Currency::where(function ($query) use ($request) {
             $query->where('symbol', 'LIKE', '%' . $request->get('search') . '%')
@@ -47,7 +47,7 @@ class CryptoController extends Controller
     {
         $currency = Currency::where('name', $currencyName)->first();
         $investmentAccount = Auth::user()->accounts()->where('type', 'investment')->first();
-        $portfolio = Portfolio::where('id', $investmentAccount->portfolio_id)->get();
+        $portfolio = Portfolio::where('portfolio_id', $investmentAccount->portfolio_id)->get();
         return view('private.crypto.buy', [
             'investmentAccount' => $investmentAccount,
             'currency' => $currency,
@@ -57,7 +57,7 @@ class CryptoController extends Controller
     public function buy(Request $request)
     {
         $investmentAccount = Auth::user()->accounts()->where('type', 'investment')->first();
-        $portfolio = Portfolio::where('id', $investmentAccount->portfolio_id)->get();
+        $portfolio = Portfolio::where('portfolio_id', $investmentAccount->portfolio_id)->get();
         $request->validate([
             'currency_name' => ['required', 'string', 'exists:currencies,name'],
             'currency_symbol' => ['required', 'string', 'exists:currencies,symbol'],
