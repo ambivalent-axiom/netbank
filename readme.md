@@ -35,7 +35,7 @@ Users can buy, sell crypto, see their portfolio current value and % of profit or
 
 <h2 align="center">Setup</h2>
 
-- ```git clone https://github.com/ambivalent-axiom/net-bank.git```
+- ```git clone https://github.com/ambivalent-axiom/netbank.git```
 - update .env.example and store as .env
 - ```composer install```
 - ```php artisan migrate```
