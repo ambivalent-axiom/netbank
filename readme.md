@@ -32,6 +32,7 @@ Users can buy, sell crypto, see their portfolio current value and % of profit or
 <p>PHP > 8.2</p>
 <p>Laravel > 11.9</p>
 <p>node > v22.4.1</p>
+<p>ext-http</p>
 
 <h2 align="center">Setup</h2>
 
