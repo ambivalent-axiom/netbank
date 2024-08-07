@@ -33,7 +33,9 @@ class DashboardIndexController extends Controller
             $portfolio = Portfolio::where('portfolio_id', $investmentAccount->portfolio_id)
                 ->get();
         }
+
         $userMessages = Auth::user()->userMessages;
+
         return view ('private.dashboard.index', [
             'contacts' => $contacts,
             'accounts' => $accounts,
@@ -43,7 +45,7 @@ class DashboardIndexController extends Controller
             'newsArticles' => $latestArticle,
             'portfolio' => $portfolio ?? null,
             'investmentAccount' => $investmentAccount ?? null,
-            'userMessages' => $userMessages ?? null,
+            'userMessages' => ($userMessages == '[]') ? null : $userMessages,
         ]);
     }
     public function update(Request $request){

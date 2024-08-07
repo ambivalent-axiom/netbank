@@ -17,6 +17,18 @@ class Account extends Model
     protected $casts = [
         'id' => 'string'
     ];
+    const TYPES = [
+        'private',
+        'business',
+        'investment',
+        'shared'
+    ];
+    const TRANSACT_TYPES = [
+        'private',
+        'business',
+        'investment',
+        'shared'
+    ];
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

@@ -20,7 +20,7 @@ class AccountCreateController extends Controller
         });
         return view('private.accounts.create', [
             'mainCurrencies' => $symbols,
-            'accountTypes' => ['private', 'business', 'shared', 'investment'],
+            'accountTypes' => Account::TYPES,
         ]);
     }
     public function store(Request $request): RedirectResponse

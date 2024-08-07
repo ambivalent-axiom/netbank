@@ -46,8 +46,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        $transactTypes = ['business', 'private', 'shared'];
-        $ownAccounts = Auth::user()->accounts()->whereIn('type', $transactTypes)->get();
+        $ownAccounts = Auth::user()->accounts()->whereIn('type', Account::TRANSACT_TYPES)->get();
         $sharedAccounts = Auth::user()->sharedWithAccounts;
         $accounts = $ownAccounts->merge($sharedAccounts);
         $contacts = Auth::user()->contacts;
