@@ -78,4 +78,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(CryptoTransaction::class, 'user_id', 'id');
     }
+    public function userMessages(): HasMany
+    {
+        return $this->hasMany(UserMessage::class, 'user_id', 'id')->where('status', 'new');
+    }
 }

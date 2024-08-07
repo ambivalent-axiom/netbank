@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use AllowDynamicProperties;
+use App\Events\TransactionReceived;
 use App\Models\Account;
 use App\Models\Currency;
 use App\Models\Transaction;
@@ -79,6 +80,7 @@ use Illuminate\Support\Facades\Log;
         $transactionOut->received_amount = $transactionIn->received_amount;
         $transactionOut->save();
 
+
         //withdraw the amount from sender
         try {
             $sendersAccount->balance -= $transactionOut->sent_amount;
@@ -94,6 +96,8 @@ use Illuminate\Support\Facades\Log;
         } catch (\Exception $e) {
             throw $e;
         }
+
+        event(new TransactionReceived($transactionOut));
 
         //TODO job must return funds to sender and set transaction status as failed if it fails for any reason
     }

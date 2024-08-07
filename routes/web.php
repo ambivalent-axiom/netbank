@@ -51,6 +51,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/dashboard', [DashboardIndexController::class, 'index'])
         ->name('dashboard');
+    Route::patch('/dashboard', [DashboardIndexController::class, 'update'])
+        ->name('confirm.message');
 
     Route::controller(DashboardContactController::class)->group(function () {
         Route::get('/contacts', 'index')->name('contacts.index');
@@ -94,23 +96,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('store')
             ->middleware(AuthorisedToTransact::class);
     });
-
-    Route::get('/test', function () {
-
-        $newsapi = new NewsApi($_ENV['NEWSAPI']);
-        $sources = $newsapi->getSources(
-            'business',
-            'en',
-            'us'
-        );
-        $top_headlines = $newsapi
-            ->getTopHeadlines(
-                'investment',
-                $sources);
-
-        return $top_headlines;
-    });
-
 });
 
 Route::middleware('auth')->group(function () {
