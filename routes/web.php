@@ -98,14 +98,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/test', function () {
 
         $newsapi = new NewsApi($_ENV['NEWSAPI']);
+        $sources = $newsapi->getSources(
+            'business',
+            'en',
+            'us'
+        );
         $top_headlines = $newsapi
             ->getTopHeadlines(
-                'crypto',
-                null,
-                'us',
-                "business",
-                20,
-                2);
+                'investment',
+                $sources);
 
         return $top_headlines;
     });

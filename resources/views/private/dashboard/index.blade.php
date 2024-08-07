@@ -14,7 +14,7 @@
             <div class="w-2/3 pr-3">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        {{ __("You are logged In!") }}
+                        @include('private.dashboard.includes.article')
                     </div>
                     <div class="block w-full overflow-x-auto">
                     </div>
