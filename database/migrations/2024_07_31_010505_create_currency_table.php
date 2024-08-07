@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('rank')->nullable();
             $table->string('percent_changed')->nullable();
             $table->timestamps();
-            $table->unique(['symbol', 'type']);
+            $table->unique(['symbol', 'name', 'type']);
         });
     }
 

@@ -35,7 +35,7 @@ class FetchCryptoCurrencies extends Command
             ])->withQueryParameters(
                 [
                     'start' => '1',
-                    'limit' => '100',
+                    'limit' => '2000',
                     'convert' => 'USD'
                 ]
             )->get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest');
