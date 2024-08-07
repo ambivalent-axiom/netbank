@@ -1,5 +1,4 @@
 <h1 align="center">Mocking Netbank with Crypto Trading</h1>
----
 <h2 align="center">Codelex Final project</h2>
 
 <p align="center">
@@ -30,10 +29,9 @@ Users can buy, sell crypto, see their portfolio current value and % of profit or
 
 
 <h2 align="center">Requirements</h2>
-- PHP > 8.2
-- Laravel > 11.9
-- Chromium or Brave
-- Pest for Tests
+<p>PHP > 8.2</p>
+<p>Laravel > 11.9</p>
+<p>node > v22.4.1</p>
 
 <h2 align="center">Setup</h2>
 
