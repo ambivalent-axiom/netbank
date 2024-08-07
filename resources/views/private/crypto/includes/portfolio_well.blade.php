@@ -14,7 +14,7 @@
             Available to invest: {{ number_format($investmentAccount->balance/100, 2) }} USD
         </div>
         <div>
-            Total invested:
+            Current portfolio value:
             <span id="total_sum"></span>
              USD
         </div>

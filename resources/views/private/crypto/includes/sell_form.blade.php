@@ -6,7 +6,7 @@
             <div class="mb-2 flex flex-col w-full p-2 bg-yellow-200 shadow sm:rounded-lg content-evenly flex-shrink-0">
                 <div class="flex w-full flex-shrink-0">
                     <div class="flex-shrink-0 ml-3 content-center">
-                        <image src="{{ $portfolio->cryptoLogo() }}" width="64" height="64"></image>
+                        <image src="{{ $portfolio->currencies[0]->logo }}" width="64" height="64"></image>
                     </div>
                     <div class="ml-3 mt-1 content-center">
                         <x-input-label>

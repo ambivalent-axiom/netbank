@@ -29,9 +29,9 @@ class Portfolio extends Model
     {
         return $this->hasMany(Currency::class, 'name', 'currency_name');
     }
-    public function withProfitUSD($currentRate): float
+    public function withProfitUSD(): float
     {
-        return $this->amount * $currentRate; //exchange back to current USD rate
+        return $this->amount * $this->currencies[0]->rate; //exchange back to current USD rate
     }
     public function profitUSD(): float
     {
