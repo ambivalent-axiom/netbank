@@ -41,6 +41,9 @@ Users can buy, sell crypto, see their portfolio current value and % of profit or
 - ```composer install```
 - ```php artisan migrate```
 - ```php artisan serv```
+- ```php artisan key:generate```
+- ```npm install```
+- ```npm run build```
 - Open ```localhost:8000``` in web browser.
 
 Commands: <br>
