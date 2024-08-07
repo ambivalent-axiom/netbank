@@ -1,4 +1,4 @@
-<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-2">
     <div class="flex justify-between">
         <div class="m-6 text-gray-900">
             {{ __("Contacts") }}

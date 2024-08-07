@@ -24,6 +24,9 @@
             <div class="w-1/3">
                 @include('private.dashboard.includes.balance')
                 @include('private.dashboard.includes.contacts')
+                @if($investmentAccount)
+                    @include('private.crypto.includes.portfolio_well')
+                @endif
                 @include('private.dashboard.includes.top_crypto')
             </div>
         </div>

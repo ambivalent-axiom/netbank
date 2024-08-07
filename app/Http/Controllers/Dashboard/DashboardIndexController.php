@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\NewsArticle;
+use App\Models\Portfolio;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardIndexController extends Controller
@@ -13,6 +14,9 @@ class DashboardIndexController extends Controller
     {
         $contacts = Auth::user()->contacts;
         $accounts = Auth::user()->accounts;
+        $investmentAccount = $accounts->filter(function ($account) {
+            return $account->type == 'investment';
+        })->first();
         $eurAccounts = $accounts->filter(function ($account) {
             return $account->currency == 'EUR';
         });
@@ -23,6 +27,10 @@ class DashboardIndexController extends Controller
             ->limit(10)
             ->get();
         $latestArticle = NewsArticle::first();
+        if($investmentAccount) {
+            $portfolio = Portfolio::where('portfolio_id', $investmentAccount->portfolio_id)
+                ->get();
+        }
         return view ('private.dashboard.index', [
             'contacts' => $contacts,
             'accounts' => $accounts,
@@ -30,6 +38,8 @@ class DashboardIndexController extends Controller
             'usdAccounts' => $usdAccounts,
             'topCurrencies' => $topCurrencies,
             'newsArticles' => $latestArticle,
+            'portfolio' => $portfolio ?? null,
+            'investmentAccount' => $investmentAccount ?? null,
         ]);
     }
 }

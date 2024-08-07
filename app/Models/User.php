@@ -76,6 +76,6 @@ class User extends Authenticatable
     }
     public function cryptoTransactions(): HasMany
     {
-        return $this->hasMany(Transaction::class, 'user_id', 'id');
+        return $this->hasMany(CryptoTransaction::class, 'user_id', 'id');
     }
 }
