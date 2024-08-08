@@ -28,7 +28,8 @@ class DashboardIndexController extends Controller
         $topCurrencies = Currency::where('type', 'crypto')
             ->limit(10)
             ->get();
-        $latestArticle = NewsArticle::first();
+        $latestArticle = NewsArticle::orderBy('created_at', 'desc')
+            ->simplePaginate(1);
         if($investmentAccount) {
             $portfolio = Portfolio::where('portfolio_id', $investmentAccount->portfolio_id)
                 ->get();

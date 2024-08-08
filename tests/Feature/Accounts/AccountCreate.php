@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Account;
 use App\Models\User;
 
 test('a user can create a private account', function () {

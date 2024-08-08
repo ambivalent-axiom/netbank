@@ -52,11 +52,11 @@ class User extends Authenticatable
     }
     public function accounts(): HasMany
     {
-        return $this->hasMany(Account::class, 'user_id');
+        return $this->hasMany(Account::class, 'user_id')->where('type', '!=', 'deleted');
     }
     public function sharedAccounts(): HasMany
     {
-        return $this->hasMany(SharedAccount::class, 'user_id');
+        return $this->hasMany(SharedAccount::class, 'user_id')->where('type', '!=', 'deleted');
     }
     public function contacts(): BelongsToMany
     {

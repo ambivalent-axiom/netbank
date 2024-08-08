@@ -27,7 +27,7 @@ class AccountFactory extends Factory
         return [
             'id' => Uuid::uuid4(),
             'type' => $type ?? 'private',
-            'portfolio_id' => null,
+            'portfolio_id' => $this->faker->uuid(),
             'currency' => $currency ?? Arr::random(['EUR', 'USD']),
             'user_id' => $user_id ?? User::all()->random()->id,
             'balance' => $balance ?? random_int(0, 1000),

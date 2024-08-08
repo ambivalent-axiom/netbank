@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Models\Account;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 
 class AccountDeleteController extends Controller
@@ -17,7 +16,8 @@ class AccountDeleteController extends Controller
         if($account->balance > 0) {
             return redirect(route('accounts'))->with('error', 'Account is not empty therefore cannot be deleted');
         }
-        $account->delete();
+        $account->type = 'deleted';
+        $account->save();
         return redirect(route('accounts'))->with('message', 'Account deleted');
     }
 }
