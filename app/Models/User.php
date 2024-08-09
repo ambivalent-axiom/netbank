@@ -64,7 +64,8 @@ class User extends Authenticatable
     }
     public function sharedWithAccounts(): BelongsToMany
     {
-        return $this->belongsToMany(Account::class, 'shared_accounts', 'shared_user_id', 'account_id');
+        return $this->belongsToMany(Account::class, 'shared_accounts', 'shared_user_id', 'account_id')
+            ->where('type', '!=', 'deleted');
     }
     public function receivedTransactions(): HasMany
     {
