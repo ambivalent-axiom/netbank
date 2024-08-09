@@ -56,5 +56,6 @@ Commands: <br>
 
 <h2 align="center">.ENV</h2>
 <p>Make sure to add Your CoinMarketCap API key to COINMC value. App can work without API key by utilizing CoinPaprika as failsafe method. However in order to load crypto logo images, You must use CoinMarketCap API.</p>
+<p>For News to work You need to add NewsAPI key to NEWSAPI variable. You can obtain one from <a href="https://newsapi.org/">https://newsapi.org/</a></p>
 
 -- END of readme.md --

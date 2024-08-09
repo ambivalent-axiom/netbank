@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Account;
+use App\Models\NewsArticle;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,9 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
+        $user1 = User::factory()->create([
             'first_name' => 'Artūrs',
             'last_name' => 'Melnis',
             'email' => 'artmelnis@gmail.com',
@@ -25,15 +24,7 @@ class DatabaseSeeder extends Seeder
             'default_account' => null,
             'password' => Hash::make('qwerty123'),
         ]);
-        User::factory()->create([
-            'first_name' => 'Egija',
-            'last_name' => 'Melne',
-            'email' => 'egija.melne@gmail.com',
-            'type' => 'business',
-            'default_account' => null,
-            'password' => Hash::make('qwerty123'),
-        ]);
-        User::factory()->create([
+        $user2 = User::factory()->create([
             'first_name' => 'Evelīna',
             'last_name' => 'Melne',
             'email' => 'evelina.melne@gmail.com',
@@ -41,14 +32,18 @@ class DatabaseSeeder extends Seeder
             'default_account' => null,
             'password' => Hash::make('qwerty123'),
         ]);
-        User::factory()->create([
-            'first_name' => 'Pāvels',
-            'last_name' => 'Melnis',
-            'email' => 'pavels.melne@gmail.com',
-            'type' => 'private',
-            'default_account' => null,
-            'password' => Hash::make('qwerty123'),
+        $account1 = Account::factory()->create([
+            'user_id' => $user1->id,
         ]);
-        Account::factory(10)->create();
+        $account2 = Account::factory()->create([
+            'user_id' => $user2->id,
+        ]);
+        $user1->update([
+            'default_account' => $account1->id,
+        ]);
+        $user2->update([
+            'default_account' => $account2->id,
+        ]);
+        NewsArticle::factory(2)->create();
     }
 }
