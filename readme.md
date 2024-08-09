@@ -50,6 +50,11 @@ Users can buy, sell crypto, see their portfolio current value and % of profit or
 <h3>Required:</h3>
 
 - ```php artisan db:seed``` Populate database with some example data<br>
+
+Seeder will create 2 DEMO users:
+artmelnis@gmail.com & evelina.melne@gmail.com
+with the same Pass: qwerty123
+
 - ```php artisan app:fetch-fiat``` Retrieve currency data from LV Bank API:<br>
 - ```php artisan app:fetch-crypto``` Retrieve currency data from crypto APIs:
  
