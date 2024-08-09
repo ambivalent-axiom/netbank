@@ -36,7 +36,7 @@ class FetchNews extends Command
         );
         $top_headlines = $newsapi
             ->getTopHeadlines(
-                'investment',
+                'finance',
                 $sources);
         foreach ($top_headlines->articles as $article) {
             NewsArticle::updateOrCreate(

@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('news_articles', function (Blueprint $table) {
             $table->id();
-            $table->string('source');
-            $table->string('title');
-            $table->string('author');
-            $table->string('url');
-            $table->text('description');
-            $table->text('content');
-            $table->string('image');
+            $table->string('source')->nullable();
+            $table->string('title')->nullable();
+            $table->string('author')->nullable();
+            $table->string('url')->nullable();
+            $table->text('description')->nullable();
+            $table->text('content')->nullable();
+            $table->string('image')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->unique(['source', 'title']);
