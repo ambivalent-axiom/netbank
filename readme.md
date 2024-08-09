@@ -46,11 +46,15 @@ Users can buy, sell crypto, see their portfolio current value and % of profit or
 - ```npm run build```
 - Open ```localhost:8000``` in web browser.
 
-Commands: <br>
+<h2 align="center">Commands</h2>
+<h3>Required:</h3>
 - ```php artisan db:seed``` Populate database with some example data<br>
 - ```php artisan app:fetch-fiat``` Retrieve currency data from LV Bank API:<br>
-- ```php artisan app:fetch-crypto``` Retrieve currency data from crypto APIs:<br>
+- ```php artisan app:fetch-crypto``` Retrieve currency data from crypto APIs:
+ 
+<h3>Optional:</h3>
 - ```php artisan app:fetch-crypto-info``` Retrieve currency logos from CoinMarketCap API<br>
+- ```php artisan app:fetch-news``` Retrieve latest articles from NewsAPI<br>
 
 
 
