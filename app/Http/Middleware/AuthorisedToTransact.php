@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Middleware;
 
+use App\Models\Account;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class AuthorisedToTransact
     }
     protected function isUserAuthorizedForAccount(User $user, string $accountId): bool
     {
-        $transactTypes = ['business', 'private', 'shared'];
+        $transactTypes = Account::TRANSACT_TYPES;
         $ownAccounts = Auth::user()->accounts()->whereIn('type', $transactTypes)->get();
         $sharedAccounts = Auth::user()->sharedWithAccounts;
         $accounts = $ownAccounts->merge($sharedAccounts);
