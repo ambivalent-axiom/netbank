@@ -8,7 +8,7 @@
         @foreach($topCurrencies as $topCurrency)
             <div class="flex flex-row w-full bg-transparent border-collapse mb-2 text-xs">
                 <div class="flex flex-wrap content-center rounded-l-lg bg-yellow-400 px-4 py-2 w-1/3 ">
-                    <image src="{{ $topCurrency->logo }}" width="28" heigth="28"></image>
+                    <image src="{{ $topCurrency->logo ?? "" }}" width="28" heigth="28"></image>
                 </div>
                 <div class="rounded-r-lg bg-yellow-200 px-3 py-2 w-full">
                     <div class="flex justify-center font-semibold	">{{ $topCurrency->name }}</div>

@@ -43,7 +43,7 @@
                 <tr class="bg-yellow-100 hover:bg-yellow-300 flex-shrink-0">
                     <td class="ml-4 border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 flex-shrink-0">
                         <image
-                            src="{{ $currency->logo }}"
+                            src="{{ $currency->logo ?? ' ' }}"
                             width="38"
                             height="38">
                         </image>
