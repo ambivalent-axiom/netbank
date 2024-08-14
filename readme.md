@@ -12,38 +12,25 @@ Users can have an investment account to use with crypto investent feature. Crypt
 Users can buy, sell crypto, see their portfolio current value and % of profit or loss.
 </p>
 
-<h3>An overview of logged in Dashboard</h3>
-<img src="/readme/dashboard.png"/>
 
-<h3>An overview of accounts section</h3>
-<img src="/readme/accounts.png"/>
-
-<h3>An overview of transactions section with opened transaction detail modal</h3>
-<img src="/readme/transactions.png"/>
-
-<h3>An overview of crypto section</h3>
-<img src="/readme/crypto.png"/>
-
-<h3>An overview of crypto portfolio section</h3>
-<img src="/readme/portfolio.png"/>
-
+<img src="/readme/netbank.gif"/>
 
 <h2 align="center">Requirements</h2>
 <p>PHP > 8.2</p>
-<p>Laravel > 11.9</p>
-<p>node > v22.4.1</p>
+<p>Composer > v2.7.7</p>
+<p>Node.js > v22.4.1</p>
 <p>ext-http</p>
 
 <h2 align="center">Setup</h2>
 
-- ```git clone https://github.com/ambivalent-axiom/netbank.git```
-- update .env.example and store as .env
-- ```composer install```
-- ```php artisan migrate```
-- ```php artisan serv```
-- ```php artisan key:generate```
-- ```npm install```
-- ```npm run build```
+- ```git clone https://github.com/ambivalent-axiom/netbank.git``` Clone the Repository
+- Set Up Environment File: update .env.example and store as .env | set postgresql for docker or sqlite for local development environment
+- ```composer install``` Install PHP Dependencies
+- ```php artisan key:generate``` Generate Application Key
+- ```php artisan migrate``` Launch migration to create schemas
+- ```npm install``` Install Frontend Dependencies
+- ```npm run build``` Build Frontend
+- ```php artisan serv``` Serve the Application
 - Open ```localhost:8000``` in web browser.
 
 <h2 align="center">Commands</h2>
@@ -67,4 +54,12 @@ with the same Pass: qwerty123
 <p>Make sure to add Your CoinMarketCap API key to COINMC value. App can work without API key by utilizing CoinPaprika as failsafe method. However in order to load crypto logo images, You must use CoinMarketCap API.</p>
 <p>For News to work You need to add NewsAPI key to NEWSAPI variable. You can obtain one from <a href="https://newsapi.org/">https://newsapi.org/</a></p>
 
--- END of readme.md --
+<h2 align="center">Tests</h2>
+
+Automated testing is done by using Pest. Run all feature tests with command:
+- ```./vendor/bin/pest```
+
+
+<h2 align="center">Contact</h2>
+If you have any questions or feedback, feel free to reach out:<br>
+Email: artmelnis@gmail.com
